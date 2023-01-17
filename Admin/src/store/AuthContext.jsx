@@ -61,7 +61,9 @@ export const AuthProvider = ({ children }) => {
                 //Passar tambem data de expiração do token
                 const loggedUser = {
                     id: decodeToken.id,
-                    email: decodeToken.email
+                    email: decodeToken.email,
+                    nome_completo: decodeToken.nome_completo, 
+                    create_time: decodeToken.create_time
                 }
                 
 
