@@ -18,7 +18,7 @@ const login = async (email, password) => {
         return false;
     }
 
-    return { email: rows[0].email };
+    return { email: rows[0].email, nome_completo: rows[0].nome_completo, create_time: rows[0].create_time };
 };
 
 

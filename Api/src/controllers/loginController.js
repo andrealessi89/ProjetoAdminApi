@@ -13,7 +13,7 @@ const login = async (request, response) => {
             return response.status(401).json({ message: 'Email ou senha inválido' });
         }
         // Cria o token
-        const token = jwt.sign({ email: login.email }, process.env.JWT_SECRET_KEY , { expiresIn: process.env.JWT_TIME });
+        const token = jwt.sign({ email: login.email, nome_completo: login.nome_completo, create_time: login.create_time  }, process.env.JWT_SECRET_KEY , { expiresIn: process.env.JWT_TIME });
         response.status(200).json({ message:'Você Logou', token: token });
     } catch (error) {
         response.status(500).json({ message: error.message });
