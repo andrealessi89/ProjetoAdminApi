@@ -25,21 +25,25 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const recoveredUser = localStorage.getItem("user");
-        const recoveredToken = localStorage.getItem("token");
-        if (recoveredUser && recoveredToken) {
-          const params = { token: recoveredToken };
-          const expirado = verifyTimeToken(recoveredToken);
-          if(!expirado){
+        try {
+            const recoveredUser = localStorage.getItem("user");
+            const recoveredToken = localStorage.getItem("token");
+            if (recoveredUser && recoveredToken) {
+                const params = { token: recoveredToken };
+                const expirado = verifyTimeToken(recoveredToken);
+                if(!expirado){
+                    logout();
+                }
+                setUser(JSON.parse(recoveredUser));
+                setToken(recoveredToken);
+            } else {
+                logout();
+            }
+            setLoading(false);
+        } catch (error) {
             logout();
-          }
-          setUser(JSON.parse(recoveredUser));
-          setToken(recoveredToken);
-        } else {
-          logout();
         }
-        setLoading(false);
-      }, []);
+    }, []);
 
     const login = (email, password) => {
         const params = {
