@@ -39,7 +39,7 @@ export default function LoginPage() {
       email: data.get('email'),
       password: data.get('password'),
     });
-    login(data.get('email'), data.get('password')); // integração com o contexto e depois com a
+    login(data.get('email'), data.get('password')); 
   };
 
   return (
@@ -81,10 +81,6 @@ export default function LoginPage() {
               type="password"
               id="password"
               autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Lembrar-me"
             />
             <Button
               type="submit"

@@ -2,6 +2,9 @@ import React, { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { api, createSession, verifyToken } from "../services/api"
 import jwtDecode from "jwt-decode";
+import { Snackbar } from "@mui/material";
+import { ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 export const AuthContext = createContext();
 
@@ -60,6 +63,7 @@ export const AuthProvider = ({ children }) => {
                     id: decodeToken.id,
                     email: decodeToken.email
                 }
+                
 
                 localStorage.setItem('user', JSON.stringify(loggedUser));
                 localStorage.setItem('token', token);
@@ -67,22 +71,27 @@ export const AuthProvider = ({ children }) => {
                 setUser({ loggedUser })
                 setToken(token)
                 navigate("/")
+                toast.success(response.data.message, {position: toast.POSITION.TOP_CENTER});
             })
             .catch(error => {
                 if (error.response.status === 401) {
+                    //EMAIL OU SENHA INVALIDOS
+                    toast.error(error.response.data.message, {position: toast.POSITION.TOP_CENTER});
                     console.error(error.response);
+
                 } else {
                     console.error('Erro desconhecido:', error);
+                    toast.error(error.response.data.message, {position: toast.POSITION.TOP_CENTER});
                 }
             });
     };
 
     const logout = () => {
-        console.log('logout');
         setUser(null);
         setToken(null);
         localStorage.removeItem("user");
         localStorage.removeItem("token");
+        toast.error('Você deslogou do sistema', {position: toast.POSITION.TOP_CENTER});
         navigate("/login");
     };
 
