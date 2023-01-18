@@ -22,8 +22,8 @@ import MailIcon from '@mui/icons-material/Mail';
 import { Outlet } from 'react-router';
 import { useContext } from 'react';
 import Menu from './Menu';
-import PageContext from '../../store/PageContext';
-import { AuthContext } from '../../store/AuthContext';
+
+
 
 const drawerWidth = 240;
 
@@ -83,7 +83,6 @@ export default function Layout({ children }) {
     const pathnames = location.pathname.split('/').filter((x) => x);
     const theme = useTheme();
     const [open, setOpen] = React.useState(true);
-    const { logout } = useContext(AuthContext);
 
     
     const handleDrawerOpen = () => {
@@ -96,7 +95,6 @@ export default function Layout({ children }) {
 
     const handleLogout = () => {
         console.log("Deslogou")
-        logout();
     }
 
     return (
