@@ -30,9 +30,9 @@ function Copyright(props) {
 
 const theme = createTheme();
 export default function LoginPage() {
-
+  const { login } = useContext(AuthContext);
+  
   const handleSubmit = (event) => {
-    
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     login(data.get('email'), data.get('password'));

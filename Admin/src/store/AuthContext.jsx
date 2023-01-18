@@ -1,4 +1,8 @@
 import React, { createContext, useState } from 'react';
+import { createSession } from '../services/api';
+import { toast } from 'react-toastify';
+import jwtDecode from "jwt-decode";
+import { Navigate } from 'react-router';
 
 export const AuthContext = createContext({
   loggedIn: false,
@@ -7,8 +11,8 @@ export const AuthContext = createContext({
 });
 
 export const AuthProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState(false);
 
+  const [loggedIn, setLoggedIn] = useState(false);
   const login = (email, password) => {
     const params = {
       email: email,
@@ -28,6 +32,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('token', token);
         toast.success(response.data.message, { position: toast.POSITION.TOP_CENTER });
         setLoggedIn(true);
+        
       })
       .catch(error => {
         if (error.response.status === 401) {
