@@ -3,6 +3,7 @@ import { createSession } from '../services/api';
 import { toast } from 'react-toastify';
 import jwtDecode from "jwt-decode";
 import { Navigate } from 'react-router';
+import { useNavigate } from 'react-router';
 
 export const AuthContext = createContext({
   loggedIn: false,
@@ -11,7 +12,7 @@ export const AuthContext = createContext({
 });
 
 export const AuthProvider = ({ children }) => {
-
+  const navigate = useNavigate();
   const [loggedIn, setLoggedIn] = useState(false);
   const login = (email, password) => {
     const params = {
@@ -32,6 +33,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('token', token);
         toast.success(response.data.message, { position: toast.POSITION.TOP_CENTER });
         setLoggedIn(true);
+        navigate('/')
         
       })
       .catch(error => {
