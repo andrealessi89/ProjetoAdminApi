@@ -7,6 +7,8 @@ import {
     Route,
     Routes,
 } from "react-router-dom";
+import PrivateRoute from './utils/PrivateRoute';
+import EsqueciSenha from './components/Layout/EsqueciSenha';
 
 
 
@@ -15,7 +17,8 @@ const AppRoutes = () => {
         <BrowserRouter>
                 <Routes>
                     <Route exact path="/login" element={<LoginPage />} />
-                    <Route path="/" element={<Layout />}>
+                    <Route exact path="/esqueci-senha" element={<EsqueciSenha />} />
+                    <Route path="/" element={<PrivateRoute><Layout /></PrivateRoute>}>
                         <Route path="/teste-1" element={<DescriptionGenView />} />
                         <Route path="/teste-2" />
                     </Route>

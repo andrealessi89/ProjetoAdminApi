@@ -14,6 +14,10 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import { useContext } from 'react';
+import { api, createSession, verifyToken } from "../../services/api"
+import { toast } from 'react-toastify';
+import jwtDecode from "jwt-decode";
+import { useNavigate } from "react-router";
 
 function Copyright(props) {
   return (
@@ -23,19 +27,48 @@ function Copyright(props) {
   );
 }
 
-const theme = createTheme();
+const login = (email, password) => {
+  
 
+  const params = {
+    email: email,
+    senha: password
+  }
+
+  createSession(params)
+    .then(response => {
+      const decodeToken = jwtDecode(response.data.token)
+      const token = response.data.token;
+      const loggedUser = {
+        id: decodeToken.id,
+        email: decodeToken.email,
+        nome_completo: decodeToken.nome_completo,
+        create_time: decodeToken.create_time
+      }
+      localStorage.setItem('user', JSON.stringify(loggedUser));
+      localStorage.setItem('token', token);
+      toast.success(response.data.message, { position: toast.POSITION.TOP_CENTER });
+    })
+    .catch(error => {
+      if (error.response.status === 401) {
+        //EMAIL OU SENHA INVALIDOS
+        toast.error(error.response.data.message, { position: toast.POSITION.TOP_CENTER });
+        console.error(error.response);
+
+      } else {
+        console.error('Erro desconhecido:', error);
+        toast.error(error.response.data.message, { position: toast.POSITION.TOP_CENTER });
+      }
+    });
+};
+
+const theme = createTheme();
 export default function LoginPage() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-    //login(data.get('email'), data.get('password')); 
+    login(data.get('email'), data.get('password'));
   };
 
   return (
