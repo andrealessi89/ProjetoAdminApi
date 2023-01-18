@@ -60,7 +60,6 @@ export default function LoginPage() {
           <Typography component="h1" variant="h5">
             Faça seu Login
           </Typography>
-          <p>{String(authenticated)}</p>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
