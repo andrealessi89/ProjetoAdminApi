@@ -45,7 +45,7 @@ const AppRoutes = () => {
                 <Routes>
                     <Route exact path="/login" element={<LoginPage />} />
                     <Route path="/" element={<Private><Layout /></Private>}>
-                        <Route path="/teste-1" element={<DescriptionGenView />} />
+                        <Route path="/teste-21" element={<DescriptionGenView />} />
                         <Route path="/teste-2" />
                     </Route>
                 </Routes>
