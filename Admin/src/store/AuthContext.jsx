@@ -5,15 +5,14 @@ import jwtDecode from "jwt-decode";
 import { Navigate } from 'react-router';
 import { useNavigate } from 'react-router';
 
-export const AuthContext = createContext({
-  loggedIn: false,
-  login: () => {},
-  logout: () => {}
-});
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
+  const [loggedIn, setLoggedIn] = useState();
+
   const login = (email, password) => {
     const params = {
       email: email,
@@ -32,7 +31,9 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('user', JSON.stringify(loggedUser));
         localStorage.setItem('token', token);
         toast.success(response.data.message, { position: toast.POSITION.TOP_CENTER });
-        setLoggedIn(true);
+        setLoggedIn('ddsadsads');
+        setUser({ loggedUser })
+        setToken(token)
         navigate('/')
         
       })
