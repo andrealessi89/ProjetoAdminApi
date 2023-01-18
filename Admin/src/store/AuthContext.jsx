@@ -1,62 +1,9 @@
-import React, { createContext, useState } from 'react';
-import { createSession } from '../services/api';
-import { toast } from 'react-toastify';
-import jwtDecode from "jwt-decode";
-import { Navigate } from 'react-router';
-import { useNavigate } from 'react-router';
+import React, { createContext, useState, useMemo } from 'react';
 
-export const AuthContext = createContext();
+export const AuthContext = createContext(null);
 
-export const AuthProvider = ({ children }) => {
-  const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
-  const [loggedIn, setLoggedIn] = useState();
-
-  const login = (email, password) => {
-    const params = {
-      email: email,
-      senha: password
-    }
-    createSession(params)
-      .then(response => {
-        const decodeToken = jwtDecode(response.data.token)
-        const token = response.data.token;
-        const loggedUser = {
-          id: decodeToken.id,
-          email: decodeToken.email,
-          nome_completo: decodeToken.nome_completo,
-          create_time: decodeToken.create_time
-        }
-        localStorage.setItem('user', JSON.stringify(loggedUser));
-        localStorage.setItem('token', token);
-        toast.success(response.data.message, { position: toast.POSITION.TOP_CENTER });
-        setLoggedIn('ddsadsads');
-        setUser({ loggedUser })
-        setToken(token)
-        navigate('/')
-        
-      })
-      .catch(error => {
-        if (error.response.status === 401) {
-          //EMAIL OU SENHA INVALIDOS
-          toast.error(error.response.data.message, { position: toast.POSITION.TOP_CENTER });
-          console.error(error.response);
-  
-        } else {
-          console.error('Erro desconhecido:', error);
-          toast.error(error.response.data.message, { position: toast.POSITION.TOP_CENTER });
-        }
-      });
-  };
-
-  const logout = () => {
-    setLoggedIn(false);
-  };
-
-  return (
-    <AuthContext.Provider value={{ loggedIn, login, logout }}>
+export const AuthProvider = ({ children }) => (
+    <AuthContext.Provider>
       {children}
     </AuthContext.Provider>
-  );
-};
+);

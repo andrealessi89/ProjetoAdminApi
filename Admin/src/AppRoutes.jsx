@@ -1,5 +1,5 @@
 import React from 'react'
-import { AuthContext, AuthProvider } from './store/AuthContext'
+import { AuthProvider } from './store/AuthContext'
 import Layout from './components/Layout/Layout'
 import DescriptionGenView from './components/DescriptionGen/DescriptionGenView'
 import LoginPage from './components/Layout/LoginPage'
